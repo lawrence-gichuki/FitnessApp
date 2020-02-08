@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="112dp"
+    android:background="@drawable/scrim"
+    android:orientation="horizontal"
+    android:padding="@dimen/widget_margin">
+
+    <ImageView
+        android:layout_width="56dp"
+        android:layout_height="56dp"
+        android:layout_gravity="center_vertical"
+        android:src="@drawable/baseline_directions_walk_white_18dp"
+        android:contentDescription="@string/walking"/>
+
+    <TextView
+        android:id="@+id/widget_steps"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_marginStart="16dp"
+        android:text="@string/_600"
+        android:textColor="@android:color/black"
+        android:textSize="72sp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_marginStart="8dp"
+        android:text="@string/steps" />
+
+</LinearLayout>
+
