@@ -8,7 +8,7 @@
     <string name="week">Week</string>
     <string name="profile">Profile</string>
     <string name="default_steps">600</string>
-    <string name="steps_target">/6000 Steps</string>
+    <string name="steps_target">Goal: 6000 Steps</string>
     <string name="default_distance">0.5</string>
     <string name="miles_uom">Miles</string>
     <string name="default_calories">80</string>

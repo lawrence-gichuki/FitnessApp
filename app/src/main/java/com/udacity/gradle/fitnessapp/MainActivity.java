@@ -1,6 +1,7 @@
 package com.udacity.gradle.fitnessapp;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
 import android.content.Context;
 import android.hardware.Sensor;
@@ -14,12 +15,18 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.txusballesteros.widgets.FitChart;
+import com.txusballesteros.widgets.FitChartValue;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements SensorEventListener {
 
+    int steps_walked;
     TextView steps_tv;
     SensorManager sensorManager;
     boolean isSensorPresent = false;
+    //public FitChart fitChart = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,12 +42,14 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
             isSensorPresent = false;
         }
 
+        steps_walked = 0;
 
-        final FitChart fitChart = findViewById(R.id.fitchart);
+        FitChart fitChart = findViewById(R.id.fitchart);
         fitChart.setMinValue(0f);
-        fitChart.setMaxValue(100f);
+        fitChart.setMaxValue(50f);
 
-        fitChart.setValue(10f);
+        fitChart.setValue(steps_walked);
+
 
     }
 
@@ -71,7 +80,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         super.onResume();
         Sensor countSensor = sensorManager.getDefaultSensor(Sensor.TYPE_STEP_COUNTER);
         if (countSensor != null) {
-            sensorManager.registerListener(this, countSensor,SensorManager.SENSOR_DELAY_NORMAL);
+            sensorManager.registerListener(this, countSensor,SensorManager.SENSOR_DELAY_FASTEST);
             isSensorPresent = true;
 
         } else
@@ -93,9 +102,18 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     @Override
     public void onSensorChanged(SensorEvent event) {
         if (isSensorPresent) {
-            steps_tv.setText(String.valueOf(((int) event.values[0])));
-        }
+            //steps_tv.setText(String.valueOf(((int) event.values[0])));
+            steps_tv.setText(String.valueOf(steps_walked));
 
+
+            FitChart fitChart = findViewById(R.id.fitchart);
+            fitChart.setMinValue(0f);
+            fitChart.setMaxValue(50f);
+
+            fitChart.setValue(steps_walked, false);
+
+            steps_walked++;
+        }
     }
 
     @Override

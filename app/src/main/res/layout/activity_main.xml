@@ -22,6 +22,16 @@
         android:textSize="56sp"
         android:textColor="@color/primaryTextColor"/>
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="16dp"
+        android:fontFamily="sans-serif-light"
+        android:text="@string/steps_target"
+        android:textSize="18sp"
+        android:textColor="@color/primaryTextColor"/>
+
 
     <FrameLayout
         android:id="@+id/container"
@@ -38,15 +48,15 @@
             android:layout_gravity="center_horizontal|center_vertical"
             android:layout_margin="8dp"
             app:animationMode="overdraw"
-            app:backStrokeColor="#00ff00"
+            app:backStrokeColor="#ff0000"
             app:strokeSize="10dp"
-            app:valueStrokeColor="#ff0000" />
+            app:valueStrokeColor="@color/colorPrimary" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical|center_horizontal"
-            android:layout_marginTop="72dp"
+            android:layout_marginTop="48dp"
             android:text="@string/steps"
             android:textStyle="bold"
             android:textSize="22sp"
