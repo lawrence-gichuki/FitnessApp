@@ -42,6 +42,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     TextView caloriesBurnt;
     TextView activeMinutesWalked;
     SensorManager sensorManager;
+    float stepsGoal;
 
     boolean isSensorPresent = false;
     //public FitChart fitChart = null;
@@ -52,6 +53,9 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        numberOfStepsWalked = 0;
+        stepsGoal = 6000f;
 
         FitnessOptions fitnessOptions =
                 FitnessOptions.builder()
@@ -75,7 +79,6 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
             readDistance();
         }
 
-
         stepsLiveCounter = findViewById(R.id.steps);
         distanceWalked = findViewById(R.id.distance_walked_textview);
         caloriesBurnt = findViewById(R.id.calories_burnt_textview);
@@ -89,11 +92,9 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
             isSensorPresent = false;
         }
 
-        numberOfStepsWalked = 0;
-
         FitChart fitChart = findViewById(R.id.fitchart);
         fitChart.setMinValue(0f);
-        fitChart.setMaxValue(100f);
+        fitChart.setMaxValue(stepsGoal);
 
         fitChart.setValue(numberOfStepsWalked);
 
@@ -154,7 +155,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
             FitChart fitChart = findViewById(R.id.fitchart);
             fitChart.setMinValue(0f);
-            fitChart.setMaxValue(50f);
+            fitChart.setMaxValue(stepsGoal);
 
             fitChart.setValue(numberOfStepsWalked, false);
 
@@ -206,7 +207,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                                 Log.i(TAG, "Total steps: " + total);
 
                                 stepsLiveCounter.setText((int) total + "");
-
+                                numberOfStepsWalked = (int) total;
 
                             }
                         })
