@@ -91,7 +91,7 @@
             />
 
         <TextView
-            android:id="@+id/distance_textview"
+            android:id="@+id/distance_walked_textview"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/distance_imageview"
@@ -103,7 +103,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/distance_textview"
+            android:layout_below="@id/distance_walked_textview"
             android:text="@string/miles_uom"
             android:textColor="@android:color/white"
             android:textSize="16sp"
@@ -120,6 +120,7 @@
             />
 
         <TextView
+            android:id="@+id/calories_burnt_textview"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/distance_imageview"
@@ -132,7 +133,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/distance_textview"
+            android:layout_below="@id/distance_walked_textview"
             android:text="@string/calories_uom"
             android:textSize="16sp"
             android:textColor="@android:color/white"
@@ -150,6 +151,7 @@
             />
 
         <TextView
+            android:id="@+id/time_walked_textview"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/distance_imageview"
@@ -163,7 +165,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/distance_textview"
+            android:layout_below="@id/distance_walked_textview"
             android:text="@string/minutes"
             android:textColor="@android:color/white"
             android:textSize="16sp"

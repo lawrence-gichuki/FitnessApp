@@ -30,14 +30,19 @@ import com.google.android.gms.tasks.Task;
 import com.txusballesteros.widgets.FitChart;
 import com.txusballesteros.widgets.FitChartValue;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements SensorEventListener {
 
-    int steps_walked;
-    TextView steps_tv;
+    int numberOfStepsWalked;
+    TextView stepsLiveCounter;
+    TextView distanceWalked;
+    TextView caloriesBurnt;
+    TextView activeMinutesWalked;
     SensorManager sensorManager;
+
     boolean isSensorPresent = false;
     //public FitChart fitChart = null;
     public static final String TAG = "StepCounter";
@@ -71,7 +76,11 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         }
 
 
-        steps_tv = findViewById(R.id.steps);
+        stepsLiveCounter = findViewById(R.id.steps);
+        distanceWalked = findViewById(R.id.distance_walked_textview);
+        caloriesBurnt = findViewById(R.id.calories_burnt_textview);
+        activeMinutesWalked = findViewById(R.id.time_walked_textview);
+
         sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
 
         if (sensorManager.getDefaultSensor(Sensor.TYPE_STEP_COUNTER) != null) {
@@ -80,13 +89,13 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
             isSensorPresent = false;
         }
 
-        steps_walked = 0;
+        numberOfStepsWalked = 0;
 
         FitChart fitChart = findViewById(R.id.fitchart);
         fitChart.setMinValue(0f);
         fitChart.setMaxValue(100f);
 
-        fitChart.setValue(steps_walked);
+        fitChart.setValue(numberOfStepsWalked);
 
     }
 
@@ -140,16 +149,16 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     public void onSensorChanged(SensorEvent event) {
         if (isSensorPresent) {
             //steps_tv.setText(String.valueOf(((int) event.values[0])));
-            steps_tv.setText(String.valueOf(steps_walked));
+            stepsLiveCounter.setText(String.valueOf(numberOfStepsWalked));
 
 
             FitChart fitChart = findViewById(R.id.fitchart);
             fitChart.setMinValue(0f);
             fitChart.setMaxValue(50f);
 
-            fitChart.setValue(steps_walked, false);
+            fitChart.setValue(numberOfStepsWalked, false);
 
-            steps_walked++;
+            numberOfStepsWalked++;
         }
     }
 
@@ -196,8 +205,8 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                                                 : dataSet.getDataPoints().get(0).getValue(Field.FIELD_STEPS).asInt();
                                 Log.i(TAG, "Total steps: " + total);
 
-                                TextView textView = findViewById(R.id.steps);
-                                textView.setText((int) total + "");
+                                stepsLiveCounter.setText((int) total + "");
+
 
                             }
                         })
@@ -221,7 +230,9 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                                         dataSet.isEmpty()
                                                 ? 0
                                                 : dataSet.getDataPoints().get(0).getValue(Field.FIELD_CALORIES).asFloat();
-                                Log.i(TAG, "Total calories: " + total);
+                                Log.i(TAG, "Total calories: " + round((total),0));
+
+                                caloriesBurnt.setText(round((total),0) + "");
 
                             }
                         })
@@ -247,6 +258,8 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                                                 : dataSet.getDataPoints().get(0).getValue(Field.FIELD_DURATION).asInt();
                                 Log.i(TAG, "Total Minutes: " + total);
 
+                                activeMinutesWalked.setText(total + "");
+
                             }
                         })
                 .addOnFailureListener(
@@ -269,7 +282,9 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                                         dataSet.isEmpty()
                                                 ? 0
                                                 : dataSet.getDataPoints().get(0).getValue(Field.FIELD_DISTANCE).asFloat();
-                                Log.i(TAG, "Total Miles: " + total*0.000621371f);
+                                Log.i(TAG, "Total Miles: " + round((total*0.000621371f),2));
+
+                                distanceWalked.setText(round((total*0.000621371f),2) + "");
 
                             }
                         })
@@ -281,5 +296,19 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                             }
                         });
     }
+
+    /**
+     * Round to certain number of decimals
+     *
+     * @param d
+     * @param decimalPlace
+     * @return
+     */
+    public static BigDecimal round(float d, int decimalPlace) {
+        BigDecimal bd = new BigDecimal(Float.toString(d));
+        bd = bd.setScale(decimalPlace, BigDecimal.ROUND_HALF_UP);
+        return bd;
+    }
+
 }
 
