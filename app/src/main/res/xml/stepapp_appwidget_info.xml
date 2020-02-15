@@ -3,7 +3,7 @@
     android:minWidth="272dp"
     android:minHeight="56dp"
     android:updatePeriodMillis="86400000"
-    android:previewImage="@drawable/baseline_directions_walk_white_18dp"
+    android:previewImage="@drawable/person_walking_icon"
     android:initialLayout="@layout/stepapp_widget"
 
     android:resizeMode="horizontal|vertical"
