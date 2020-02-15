@@ -14,6 +14,7 @@ import android.view.MenuItem;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.common.util.Strings;
 import com.txusballesteros.widgets.FitChart;
 import com.txusballesteros.widgets.FitChartValue;
 
@@ -26,6 +27,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     TextView steps_tv;
     SensorManager sensorManager;
     boolean isSensorPresent = false;
+    Strings steps_data;
     //public FitChart fitChart = null;
 
     @Override
@@ -51,6 +53,21 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         fitChart.setValue(steps_walked);
 
 
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        // Read values from the "savedInstanceState"-object and put them in your textview
+
+
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        // Save the values you need from your textview into "outState"-object
+
+        super.onSaveInstanceState(outState);
     }
 
     @Override
