@@ -4,7 +4,8 @@
     android:layout_height="112dp"
     android:background="@drawable/scrim"
     android:orientation="horizontal"
-    android:padding="@dimen/widget_margin">
+    android:padding="@dimen/widget_margin"
+    android:gravity="bottom">
 
     <ImageView
         android:layout_width="56dp"
@@ -19,7 +20,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
         android:layout_marginStart="16dp"
-        android:text="@string/_600"
+        android:text="@string/default_steps"
         android:textColor="@android:color/black"
         android:textSize="72sp" />
 

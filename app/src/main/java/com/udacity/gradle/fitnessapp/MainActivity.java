@@ -54,7 +54,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        numberOfStepsWalked = 0;
+
         stepsGoal = 6000f;
 
         FitnessOptions fitnessOptions =
