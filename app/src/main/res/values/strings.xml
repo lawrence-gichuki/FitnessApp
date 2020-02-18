@@ -6,7 +6,7 @@
 
     <string name="today">Today</string>
     <string name="week">Week</string>
-    <string name="profile">Profile</string>
+    <string name="profile">Your Profile</string>
     <string name="default_steps">0</string>
     <string name="steps_target">Goal: 6000 Steps</string>
     <string name="default_distance">0.00</string>
@@ -29,5 +29,6 @@
     <string name="gender">Gender</string>
     <string name="weight">Weight</string>
     <string name="height">Height</string>
+    <string name="steps_goal">Steps Goal</string>
 
 </resources>
