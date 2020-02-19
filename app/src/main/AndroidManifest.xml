@@ -12,9 +12,14 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".SettingsActivity"
-            android:parentActivityName=".MainActivity"
-            android:configChanges="orientation|screenSize"></activity>
+        <activity android:name=".ReportActivity"
+            android:configChanges="orientation|screenSize"
+            android:parentActivityName=".MainActivity">
+        </activity>
+        <activity
+            android:name=".SettingsActivity"
+            android:configChanges="orientation|screenSize"
+            android:parentActivityName=".MainActivity" />
         <activity
             android:name=".MainActivity"
             android:configChanges="orientation|screenSize">
