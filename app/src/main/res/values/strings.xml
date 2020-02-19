@@ -16,6 +16,7 @@
     <string name="default_time">0</string>
     <string name="default_600_steps">600 Steps</string>
     <string name="goal">Goal: 6000 Steps</string>
+    <string name="user_goal">Steps Goal</string>
     <string name="steps_left">5400 Steps left</string>
     <string name="weight_kg">Weight (KG)</string>
     <string name="height_cm">Height (CM)</string>
@@ -30,5 +31,29 @@
     <string name="weight">Weight</string>
     <string name="height">Height</string>
     <string name="steps_goal">Steps Goal</string>
+
+
+    <string-array name="gender">
+        <item>Male</item>
+        <item>Female</item>
+    </string-array>
+
+    <string-array name="steps">
+        <item>1000</item>
+        <item>2000</item>
+        <item>3000</item>
+        <item>4000</item>
+        <item>5000</item>
+        <item>6000</item>
+        <item>7000</item>
+        <item>8000</item>
+        <item>9000</item>
+        <item>10000</item>
+        <item>11000</item>
+        <item>12000</item>
+        <item>13000</item>
+        <item>14000</item>
+        <item>15000</item>
+    </string-array>
 
 </resources>

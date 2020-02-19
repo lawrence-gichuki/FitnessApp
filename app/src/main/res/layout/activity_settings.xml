@@ -42,10 +42,18 @@
                     android:contentDescription="@string/gender"
                     android:src="@drawable/person" />
 
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/gender"
+                    android:textColor="@android:color/white"
+                    android:textStyle="bold"/>
+
                 <androidx.appcompat.widget.AppCompatSpinner
                     android:id="@+id/gender"
                     android:layout_width="fill_parent"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp" />
 
             </LinearLayout>
 
@@ -64,10 +72,18 @@
                     android:contentDescription="@string/walking"
                     android:src="@drawable/person_walking_icon" />
 
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/user_goal"
+                    android:textStyle="bold"
+                    android:textColor="@android:color/white"/>
+
                 <androidx.appcompat.widget.AppCompatSpinner
                     android:id="@+id/steps"
                     android:layout_width="fill_parent"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp" />
 
             </LinearLayout>
 
@@ -92,7 +108,9 @@
                     android:layout_height="wrap_content"
                     android:hint="@string/weight_kg"
                     android:importantForAutofill="no"
-                    android:inputType="number" />
+                    android:inputType="number"
+                    android:textColor="@android:color/white"
+                    android:textStyle="bold" />
 
             </LinearLayout>
 
@@ -116,7 +134,9 @@
                     android:layout_height="wrap_content"
                     android:hint="@string/height_cm"
                     android:importantForAutofill="no"
-                    android:inputType="number" />
+                    android:inputType="number"
+                    android:textColor="@android:color/white"
+                    android:textStyle="bold" />
 
             </LinearLayout>
 
