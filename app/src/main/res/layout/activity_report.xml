@@ -17,27 +17,30 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:layout_margin="16dp"
+            android:layout_marginTop="56dp"
+            android:background="@drawable/scrim"
             android:fontFamily="sans-serif-light"
+            android:padding="8dp"
             android:text="@string/today"
-            android:textColor="@android:color/black"
-            android:textSize="24sp" />
+            android:textColor="@android:color/white"
+            android:textSize="56sp" />
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="16dp"
-            android:background="@drawable/scrim"
-            android:elevation="4dp">
+            android:background="@drawable/scrim">
 
             <TextView
                 android:id="@+id/steps"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical|center_horizontal"
                 android:layout_margin="16dp"
                 android:text="@string/default_600_steps"
-                android:textColor="@android:color/black"
-                android:textSize="22sp" />
+                android:textColor="@android:color/white"
+                android:textSize="22sp"
+                android:textStyle="bold" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -45,6 +48,7 @@
                 android:layout_alignParentEnd="true"
                 android:layout_margin="16dp"
                 android:text="@string/steps_left"
+                android:textColor="@android:color/black"
                 android:textSize="22sp" />
 
             <TextView
@@ -54,6 +58,7 @@
                 android:layout_centerInParent="true"
                 android:layout_margin="16dp"
                 android:text="@string/goal"
+                android:textColor="@android:color/black"
                 android:textSize="22sp" />
 
         </RelativeLayout>
@@ -62,11 +67,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:layout_margin="16dp"
-            android:fontFamily="sans-serif-light"
+            android:layout_marginTop="24dp"
+            android:background="@drawable/scrim"
+            android:padding="8dp"
             android:text="@string/week"
-            android:textColor="@android:color/black"
-            android:textSize="24sp" />
+            android:textColor="@android:color/white"
+            android:textSize="56sp" />
 
         <com.github.mikephil.charting.charts.BarChart
             android:id="@+id/chart1"
