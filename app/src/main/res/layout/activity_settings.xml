@@ -104,6 +104,7 @@
                     android:src="@drawable/weight" />
 
                 <EditText
+                    android:id="@+id/weight"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/weight_kg"
@@ -130,6 +131,7 @@
                     android:src="@drawable/height" />
 
                 <EditText
+                    android:id="@+id/height"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/height_cm"
@@ -141,6 +143,7 @@
             </LinearLayout>
 
             <Button
+                android:id="@+id/save"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="32dp"

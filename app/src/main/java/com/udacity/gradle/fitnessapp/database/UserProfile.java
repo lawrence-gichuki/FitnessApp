@@ -17,7 +17,7 @@ public class UserProfile {
     private int height;
     private Date updatedAt;
 
-   @Ignore
+    @Ignore
     public UserProfile(String gender, int goal, int weight, int height, Date updatedAt) {
         this.gender = gender;
         this.goal = goal;
