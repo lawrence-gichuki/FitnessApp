@@ -11,15 +11,28 @@ import java.util.List;
 
 @Dao
 public interface UserDao {
-@Query("SELECT * FROM users")
+
+    @Query("SELECT * FROM users ORDER BY id DESC LIMIT 1")
     List<UserProfile> loadAllTasks();
 
-@Insert
+    @Query("SELECT gender FROM users ORDER BY id DESC LIMIT 1")
+    String loadGender();
+
+    @Query("SELECT goal FROM users ORDER BY id DESC LIMIT 1")
+    int loadGoal();
+
+    @Query("SELECT weight FROM users ORDER BY id DESC LIMIT 1")
+    int loadWeight();
+
+    @Query("SELECT height FROM users ORDER BY id DESC LIMIT 1")
+    int loadHeight();
+
+    @Insert
     void insertUser(UserProfile userProfile);
 
-@Update(onConflict = OnConflictStrategy.REPLACE)
+    @Update(onConflict = OnConflictStrategy.REPLACE)
     void updateUser(UserProfile userProfile);
 
-@Delete
+    @Delete
     void deleteUser(UserProfile userProfile);
 }
