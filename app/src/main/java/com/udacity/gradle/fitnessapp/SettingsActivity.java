@@ -2,6 +2,7 @@ package com.udacity.gradle.fitnessapp;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -11,11 +12,14 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.Observer;
 
 import com.udacity.gradle.fitnessapp.database.AppDatabase;
 import com.udacity.gradle.fitnessapp.database.UserProfile;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Objects;
 
 public class SettingsActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
@@ -27,8 +31,8 @@ public class SettingsActivity extends AppCompatActivity implements AdapterView.O
     Button mSave;
     ArrayAdapter<CharSequence> adapterSteps;
     ArrayAdapter<CharSequence> adapterGender;
-    private AppDatabase mDb;
     Toast toast;
+    private AppDatabase mDb;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,6 +76,7 @@ public class SettingsActivity extends AppCompatActivity implements AdapterView.O
         // Apply the adapter to the spinner
         mGoal.setAdapter(adapterSteps);
 
+        retrieveProfile();
 
     }
 
@@ -104,11 +109,12 @@ public class SettingsActivity extends AppCompatActivity implements AdapterView.O
                 toast.cancel();
             }
 
-            toast = Toast.makeText(context,text,duration);
+            toast = Toast.makeText(context, text, duration);
             toast.show();
         } else {
 
             final UserProfile userProfile = new UserProfile(gender, goal, weight, height, updatedAt);
+
 
             AppExecutors.getInstance().diskIO().execute(new Runnable() {
                 @Override
@@ -121,26 +127,32 @@ public class SettingsActivity extends AppCompatActivity implements AdapterView.O
 
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        retrieveProfile();
-    }
-
-    private void retrieveProfile() {
-        AppExecutors.getInstance().diskIO().execute(new Runnable() {
+    public void retrieveProfile() {
+        final LiveData<List<UserProfile>> userProfile = mDb.userDao().loadAllTasks();
+        userProfile.observe(this, new Observer<List<UserProfile>>() {
             @Override
-            public void run() {
-                String gender = mDb.userDao().loadGender();
-                int goal = mDb.userDao().loadGoal();
-                int weight = mDb.userDao().loadWeight();
-                int height = mDb.userDao().loadHeight();
+            public void onChanged(List<UserProfile> userProfiles) {
+                userProfile.removeObserver(this);
+                Log.i("FITNESS","Loading..");
+                AppExecutors.getInstance().diskIO().execute(new Runnable() {
+                    @Override
+                    public void run() {
+                        final String gender = mDb.userDao().loadGender();
+                        final int goal = mDb.userDao().loadGoal();
+                        final int weight = mDb.userDao().loadWeight();
+                        final int height = mDb.userDao().loadHeight();
 
-                mGender.setSelection(adapterGender.getPosition(gender));
-                mGoal.setSelection(adapterSteps.getPosition(goal + ""));
-                mWeight.setText(weight + "");
-                mHeight.setText(height + "");
-
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                mGender.setSelection(adapterGender.getPosition(gender));
+                                mGoal.setSelection(adapterSteps.getPosition(goal + ""));
+                                mWeight.setText(weight + "");
+                                mHeight.setText(height + "");
+                            }
+                        });
+                    }
+                });
             }
         });
     }

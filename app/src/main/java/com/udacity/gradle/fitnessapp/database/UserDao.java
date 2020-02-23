@@ -1,5 +1,6 @@
 package com.udacity.gradle.fitnessapp.database;
 
+import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
@@ -13,7 +14,7 @@ import java.util.List;
 public interface UserDao {
 
     @Query("SELECT * FROM users ORDER BY id DESC LIMIT 1")
-    List<UserProfile> loadAllTasks();
+    LiveData<List<UserProfile>> loadAllTasks();
 
     @Query("SELECT gender FROM users ORDER BY id DESC LIMIT 1")
     String loadGender();
