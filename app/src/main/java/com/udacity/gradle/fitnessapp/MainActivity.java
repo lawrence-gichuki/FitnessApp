@@ -140,7 +140,6 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             Intent intent = new Intent(this,SettingsActivity.class);
             startActivity(intent);
@@ -325,10 +324,6 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
     /**
      * Round to certain number of decimals
-     *
-     * @param d
-     * @param decimalPlace
-     * @return
      */
     public static BigDecimal round(float d, int decimalPlace) {
         BigDecimal bd = new BigDecimal(Float.toString(d));

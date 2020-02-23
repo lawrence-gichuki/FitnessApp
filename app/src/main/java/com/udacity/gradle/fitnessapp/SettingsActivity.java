@@ -32,7 +32,6 @@ public class SettingsActivity extends AppCompatActivity implements AdapterView.O
     ArrayAdapter<CharSequence> adapterSteps;
     ArrayAdapter<CharSequence> adapterGender;
     Toast toast;
-    private static final String TAG = SettingsActivity.class.getSimpleName();
     private AppDatabase mDb;
 
     @Override
