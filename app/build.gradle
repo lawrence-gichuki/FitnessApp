@@ -32,6 +32,9 @@ dependencies {
     implementation 'com.github.PhilJay:MPAndroidChart:3.0.3'
     implementation 'com.github.javiersantos:FitChart:1.1'
 
+    // Add RecyclerView dependency
+    implementation 'com.android.support:recyclerview-v7:28.0.0'
+
     implementation "androidx.room:room-runtime:2.2.3"
     annotationProcessor "androidx.room:room-compiler:2.2.3"
 

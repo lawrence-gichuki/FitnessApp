@@ -14,7 +14,10 @@ public class UpdateWidgetService extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
 
+
+
         String lastUpdate = "5600";
+
         // Reaches the view on widget and displays the number
         RemoteViews view = new RemoteViews(getPackageName(), R.layout.stepapp_widget);
         view.setTextViewText(R.id.widget_steps, lastUpdate);

@@ -1,9 +1,5 @@
 package com.udacity.gradle.fitnessapp;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
-
 import android.content.Context;
 import android.content.Intent;
 import android.hardware.Sensor;
@@ -17,8 +13,13 @@ import android.view.MenuItem;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
+
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
-import com.google.android.gms.common.util.Strings;
 import com.google.android.gms.fitness.Fitness;
 import com.google.android.gms.fitness.FitnessOptions;
 import com.google.android.gms.fitness.data.DataSet;
@@ -29,10 +30,10 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.txusballesteros.widgets.FitChart;
-import com.txusballesteros.widgets.FitChartValue;
+import com.udacity.gradle.fitnessapp.database.AppDatabase;
+import com.udacity.gradle.fitnessapp.database.UserProfile;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements SensorEventListener {
@@ -44,19 +45,18 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     TextView activeMinutesWalked;
     SensorManager sensorManager;
     float stepsGoal;
-
+    private AppDatabase mDb;
+    FitChart fitChart;
     boolean isSensorPresent = false;
-    //public FitChart fitChart = null;
-    public static final String TAG = "StepCounter";
     private static final int REQUEST_OAUTH_REQUEST_CODE = 0x1001;
+    private static final String TAG = MainActivity.class.getSimpleName();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
-        stepsGoal = 6000f;
+        setupViewModel();
 
         FitnessOptions fitnessOptions =
                 FitnessOptions.builder()
@@ -93,12 +93,40 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
             isSensorPresent = false;
         }
 
-        FitChart fitChart = findViewById(R.id.fitchart);
+        fitChart = findViewById(R.id.fitchart);
         fitChart.setMinValue(0f);
+        Log.d("GOAL",   stepsGoal + "");
         fitChart.setMaxValue(stepsGoal);
+
 
         fitChart.setValue(numberOfStepsWalked);
 
+    }
+
+    private void setupViewModel() {
+        final MainViewModel viewModel = new ViewModelProvider(this).get(MainViewModel.class);
+        viewModel.getTasks().observe(this, new Observer<List<UserProfile>>() {
+            @Override
+            public void onChanged(@Nullable List<UserProfile> taskEntries) {
+                AppExecutors.getInstance().diskIO().execute(new Runnable() {
+                    @Override
+                    public void run() {
+                        mDb = AppDatabase.getInstance(getApplicationContext());
+                        final int goal = mDb.userDao().loadGoal();
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                TextView goalTextView;
+                                goalTextView = findViewById(R.id.steps_goal);
+                                stepsGoal = ((float) goal);
+                                fitChart.setMaxValue(stepsGoal);
+                                goalTextView.setText("Goal: " + goal + " Steps");
+                            }
+                        });
+                    }
+                });
+            }
+        });
     }
 
     @Override
@@ -137,7 +165,6 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         if (countSensor != null) {
             sensorManager.registerListener(this, countSensor,SensorManager.SENSOR_DELAY_FASTEST);
             isSensorPresent = true;
-
         } else
         {
             Toast.makeText(this, "Sensor not found!", Toast.LENGTH_SHORT).show();
@@ -151,22 +178,15 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         if (isSensorPresent) {
             sensorManager.unregisterListener(this);
         }
-
     }
 
     @Override
     public void onSensorChanged(SensorEvent event) {
         if (isSensorPresent) {
-            //steps_tv.setText(String.valueOf(((int) event.values[0])));
             stepsLiveCounter.setText(String.valueOf(numberOfStepsWalked));
-
-
-            FitChart fitChart = findViewById(R.id.fitchart);
             fitChart.setMinValue(0f);
             fitChart.setMaxValue(stepsGoal);
-
             fitChart.setValue(numberOfStepsWalked, false);
-
             numberOfStepsWalked++;
         }
     }
@@ -189,9 +209,9 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                             @Override
                             public void onComplete(@NonNull Task<Void> task) {
                                 if (task.isSuccessful()) {
-                                    Log.i(TAG, "Successfully subscribed!");
+                                    Log.d(TAG, "Successfully subscribed!");
                                 } else {
-                                    Log.w(TAG, "There was a problem subscribing.", task.getException());
+                                    Log.d(TAG, "There was a problem subscribing.", task.getException());
                                 }
                             }
                         });
@@ -212,7 +232,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                                         dataSet.isEmpty()
                                                 ? 0
                                                 : dataSet.getDataPoints().get(0).getValue(Field.FIELD_STEPS).asInt();
-                                Log.i(TAG, "Total steps: " + total);
+                                Log.d(TAG, "Total steps: " + total);
 
                                 stepsLiveCounter.setText((int) total + "");
                                 numberOfStepsWalked = (int) total;
@@ -223,7 +243,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                         new OnFailureListener() {
                             @Override
                             public void onFailure(@NonNull Exception e) {
-                                Log.w(TAG, "There was a problem getting the step count.", e);
+                                Log.d(TAG, "There was a problem getting the step count.", e);
                             }
                         });
     }
@@ -239,7 +259,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                                         dataSet.isEmpty()
                                                 ? 0
                                                 : dataSet.getDataPoints().get(0).getValue(Field.FIELD_CALORIES).asFloat();
-                                Log.i(TAG, "Total calories: " + round((total),0));
+                                Log.d(TAG, "Total calories: " + round((total),0));
 
                                 caloriesBurnt.setText(round((total),0) + "");
 
@@ -249,7 +269,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                         new OnFailureListener() {
                             @Override
                             public void onFailure(@NonNull Exception e) {
-                                Log.w(TAG, "There was a problem getting the calories total.", e);
+                                Log.d(TAG, "There was a problem getting the calories total.", e);
                             }
                         });
     }
@@ -265,7 +285,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                                         dataSet.isEmpty()
                                                 ? 0
                                                 : dataSet.getDataPoints().get(0).getValue(Field.FIELD_DURATION).asInt();
-                                Log.i(TAG, "Total Minutes: " + total);
+                                Log.d(TAG, "Total Minutes: " + total);
 
                                 activeMinutesWalked.setText(total + "");
 
@@ -275,7 +295,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                         new OnFailureListener() {
                             @Override
                             public void onFailure(@NonNull Exception e) {
-                                Log.w(TAG, "There was a problem getting the active minutes total.", e);
+                                Log.d(TAG, "There was a problem getting the active minutes total.", e);
                             }
                         });
     }
@@ -291,7 +311,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                                         dataSet.isEmpty()
                                                 ? 0
                                                 : dataSet.getDataPoints().get(0).getValue(Field.FIELD_DISTANCE).asFloat();
-                                Log.i(TAG, "Total Miles: " + round((total*0.000621371f),2));
+                                Log.d(TAG, "Total Miles: " + round((total*0.000621371f),2));
 
                                 distanceWalked.setText(round((total*0.000621371f),2) + "");
 
@@ -301,7 +321,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                         new OnFailureListener() {
                             @Override
                             public void onFailure(@NonNull Exception e) {
-                                Log.w(TAG, "There was a problem getting the active minutes total.", e);
+                                Log.d(TAG, "There was a problem getting the active minutes total.", e);
                             }
                         });
     }

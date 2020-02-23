@@ -20,7 +20,6 @@ public class AppExecutors {
         this.diskIO = diskIO;
         this.networkIO = networkIO;
         this.mainThread = mainThread;
-
     }
 
     public static AppExecutors getInstance() {

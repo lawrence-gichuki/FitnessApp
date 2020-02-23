@@ -31,9 +31,6 @@ public interface UserDao {
     @Insert
     void insertUser(UserProfile userProfile);
 
-    @Update(onConflict = OnConflictStrategy.REPLACE)
-    void updateUser(UserProfile userProfile);
-
     @Delete
     void deleteUser(UserProfile userProfile);
 }

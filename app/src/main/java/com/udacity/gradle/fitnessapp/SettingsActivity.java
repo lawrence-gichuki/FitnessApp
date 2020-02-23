@@ -2,7 +2,6 @@ package com.udacity.gradle.fitnessapp;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -29,12 +28,11 @@ public class SettingsActivity extends AppCompatActivity implements AdapterView.O
     Spinner mGoal;
     EditText mWeight;
     EditText mHeight;
-    Date updatedAt;
     Button mSave;
     ArrayAdapter<CharSequence> adapterSteps;
     ArrayAdapter<CharSequence> adapterGender;
     Toast toast;
-    String TAG = "ViewModel";
+    private static final String TAG = SettingsActivity.class.getSimpleName();
     private AppDatabase mDb;
 
     @Override
@@ -134,8 +132,6 @@ public class SettingsActivity extends AppCompatActivity implements AdapterView.O
             AppExecutors.getInstance().diskIO().execute(new Runnable() {
                 @Override
                 public void run() {
-                    int currentId = userProfile.getId();
-                    Log.i("ID",currentId + "");
                     mDb.userDao().insertUser(userProfile);
                     finish();
                 }
@@ -144,16 +140,32 @@ public class SettingsActivity extends AppCompatActivity implements AdapterView.O
 
     }
 
+    //Setup the viewModel
     private void setupViewModel() {
         MainViewModel viewModel = new ViewModelProvider(this).get(MainViewModel.class);
         viewModel.getTasks().observe(this, new Observer<List<UserProfile>>() {
             @Override
             public void onChanged(@Nullable List<UserProfile> taskEntries) {
-                Log.d(TAG, "Updating list of tasks from LiveData in ViewModel");
-                //mAdapter.setTasks(taskEntries);
+                AppExecutors.getInstance().diskIO().execute(new Runnable() {
+                    @Override
+                    public void run() {
+                        final String gender = mDb.userDao().loadGender();
+                        final int goal = mDb.userDao().loadGoal();
+                        final int weight = mDb.userDao().loadWeight();
+                        final int height = mDb.userDao().loadHeight();
+
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                mGender.setSelection(adapterGender.getPosition(gender));
+                                mGoal.setSelection(adapterSteps.getPosition(goal + ""));
+                                mWeight.setText(weight + "");
+                                mHeight.setText(height + "");
+                            }
+                        });
+                    }
+                });
             }
         });
     }
-
-
 }
