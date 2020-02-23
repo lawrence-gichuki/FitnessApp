@@ -21,14 +21,16 @@
         android:layout_gravity="center_vertical"
         android:layout_marginStart="16dp"
         android:text="@string/default_steps"
-        android:textColor="@android:color/black"
-        android:textSize="72sp" />
+        android:textColor="@android:color/white"
+        android:textSize="42sp" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
         android:layout_marginStart="8dp"
+        android:textColor="@android:color/white"
+        android:textSize="22sp"
         android:text="@string/steps" />
 
 </LinearLayout>

@@ -47,39 +47,20 @@ public class UserProfile {
         return gender;
     }
 
-    public void setGender(String description) {
-        this.gender = description;
-    }
-
     public int getHeight() {
         return height;
-    }
-
-    public void setHeight(int priority) {
-        this.height = priority;
     }
 
     public int getWeight() {
         return weight;
     }
 
-    public void setWeight(int priority) {
-        this.weight = priority;
-    }
-
     public int getGoal() {
         return goal;
-    }
-
-    public void setGoal(int priority) {
-        this.goal = priority;
     }
 
     public Date getUpdatedAt() {
         return updatedAt;
     }
 
-    public void setUpdatedAt(Date updatedAt) {
-        this.updatedAt = updatedAt;
-    }
 }

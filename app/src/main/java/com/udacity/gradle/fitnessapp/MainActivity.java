@@ -1,5 +1,6 @@
 package com.udacity.gradle.fitnessapp;
 
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.hardware.Sensor;
@@ -95,7 +96,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
         fitChart = findViewById(R.id.fitchart);
         fitChart.setMinValue(0f);
-        Log.d("GOAL",   stepsGoal + "");
+        Log.d(TAG,   stepsGoal + "");
         fitChart.setMaxValue(stepsGoal);
 
 
