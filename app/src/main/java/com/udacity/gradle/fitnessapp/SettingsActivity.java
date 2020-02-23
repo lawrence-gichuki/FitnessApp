@@ -1,5 +1,6 @@
 package com.udacity.gradle.fitnessapp;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -7,6 +8,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -26,6 +28,7 @@ public class SettingsActivity extends AppCompatActivity implements AdapterView.O
     ArrayAdapter<CharSequence> adapterSteps;
     ArrayAdapter<CharSequence> adapterGender;
     private AppDatabase mDb;
+    Toast toast;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,24 +94,37 @@ public class SettingsActivity extends AppCompatActivity implements AdapterView.O
         int height = Integer.parseInt(mHeight.getText().toString());
         Date updatedAt = new Date();
 
-        final UserProfile userProfile = new UserProfile(gender, goal, weight, height, updatedAt);
+        if ((weight < 5) || (weight > 300) || (height < 50) || (height > 240)) {
+            Context context = getApplicationContext();
+            CharSequence text = "Please enter your actual weight(KG) and height(CM)";
+            int duration = Toast.LENGTH_LONG;
 
-        AppExecutors.getInstance().diskIO().execute(new Runnable() {
-            @Override
-            public void run() {
-                mDb.userDao().insertUser(userProfile);
-                finish();
+            //Cancel previous toast
+            if (toast != null) {
+                toast.cancel();
             }
-        });
+
+            toast = Toast.makeText(context,text,duration);
+            toast.show();
+        } else {
+
+            final UserProfile userProfile = new UserProfile(gender, goal, weight, height, updatedAt);
+
+            AppExecutors.getInstance().diskIO().execute(new Runnable() {
+                @Override
+                public void run() {
+                    mDb.userDao().insertUser(userProfile);
+                    finish();
+                }
+            });
+        }
 
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-
         retrieveProfile();
-
     }
 
     private void retrieveProfile() {
