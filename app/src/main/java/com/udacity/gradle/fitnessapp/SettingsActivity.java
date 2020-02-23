@@ -1,7 +1,6 @@
 package com.udacity.gradle.fitnessapp;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -92,16 +91,15 @@ public class SettingsActivity extends AppCompatActivity implements AdapterView.O
         int height = Integer.parseInt(mHeight.getText().toString());
         Date updatedAt = new Date();
 
-        UserProfile userProfile = new UserProfile(gender, goal, weight, height, updatedAt);
-        mDb.userDao().insertUser(userProfile);
+        final UserProfile userProfile = new UserProfile(gender, goal, weight, height, updatedAt);
 
-        Log.i("Spinner", gender);
-        Log.i("Spinner", goal + "");
-        Log.i("Spinner", weight + "");
-        Log.i("Spinner", height + "");
-        Log.i("Spinner", updatedAt + "");
-
-        finish();
+        AppExecutors.getInstance().diskIO().execute(new Runnable() {
+            @Override
+            public void run() {
+                mDb.userDao().insertUser(userProfile);
+                finish();
+            }
+        });
 
     }
 
@@ -109,20 +107,25 @@ public class SettingsActivity extends AppCompatActivity implements AdapterView.O
     protected void onResume() {
         super.onResume();
 
-        String gender = mDb.userDao().loadGender();
-        int goal = mDb.userDao().loadGoal();
-        int weight = mDb.userDao().loadWeight();
-        int height = mDb.userDao().loadHeight();
+        retrieveProfile();
 
-        Log.i("Spinner", gender + "");
-        Log.i("Spinner", goal + "");
-        Log.i("Spinner", weight + "");
-        Log.i("Spinner", height + "");
+    }
 
-        mGender.setSelection(adapterGender.getPosition(gender));
-        mGoal.setSelection(adapterSteps.getPosition(goal + ""));
-        mWeight.setText(weight + "");
-        mHeight.setText(height + "");
+    private void retrieveProfile() {
+        AppExecutors.getInstance().diskIO().execute(new Runnable() {
+            @Override
+            public void run() {
+                String gender = mDb.userDao().loadGender();
+                int goal = mDb.userDao().loadGoal();
+                int weight = mDb.userDao().loadWeight();
+                int height = mDb.userDao().loadHeight();
 
+                mGender.setSelection(adapterGender.getPosition(gender));
+                mGoal.setSelection(adapterSteps.getPosition(goal + ""));
+                mWeight.setText(weight + "");
+                mHeight.setText(height + "");
+
+            }
+        });
     }
 }
