@@ -1,6 +1,5 @@
 package com.udacity.gradle.fitnessapp;
 
-import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.hardware.Sensor;
@@ -36,6 +35,7 @@ import com.udacity.gradle.fitnessapp.database.UserProfile;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity implements SensorEventListener {
 
@@ -88,11 +88,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
         sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
 
-        if (sensorManager.getDefaultSensor(Sensor.TYPE_STEP_COUNTER) != null) {
-            isSensorPresent = true;
-        } else {
-            isSensorPresent = false;
-        }
+        isSensorPresent = sensorManager.getDefaultSensor(Sensor.TYPE_STEP_COUNTER) != null;
 
         fitChart = findViewById(R.id.fitchart);
         fitChart.setMinValue(0f);
@@ -203,7 +199,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     public void subscribe() {
         // To create a subscription, invoke the Recording API. As soon as the subscription is
         // active, fitness data will start recording.
-        Fitness.getRecordingClient(this, GoogleSignIn.getLastSignedInAccount(this))
+        Fitness.getRecordingClient(this, Objects.requireNonNull(GoogleSignIn.getLastSignedInAccount(this)))
                 .subscribe(DataType.TYPE_STEP_COUNT_CUMULATIVE)
                 .addOnCompleteListener(
                         new OnCompleteListener<Void>() {
@@ -223,7 +219,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
      * current timezone.
      */
     private void readSteps() {
-        Fitness.getHistoryClient(this, GoogleSignIn.getLastSignedInAccount(this))
+        Fitness.getHistoryClient(this, Objects.requireNonNull(GoogleSignIn.getLastSignedInAccount(this)))
                 .readDailyTotal(DataType.TYPE_STEP_COUNT_DELTA)
                 .addOnSuccessListener(
                         new OnSuccessListener<DataSet>() {
@@ -250,7 +246,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     }
 
     private void readCalories() {
-        Fitness.getHistoryClient(this, GoogleSignIn.getLastSignedInAccount(this))
+        Fitness.getHistoryClient(this, Objects.requireNonNull(GoogleSignIn.getLastSignedInAccount(this)))
                 .readDailyTotal(DataType.TYPE_CALORIES_EXPENDED)
                 .addOnSuccessListener(
                         new OnSuccessListener<DataSet>() {
@@ -276,7 +272,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     }
 
     private void readMinutes() {
-        Fitness.getHistoryClient(this, GoogleSignIn.getLastSignedInAccount(this))
+        Fitness.getHistoryClient(this, Objects.requireNonNull(GoogleSignIn.getLastSignedInAccount(this)))
                 .readDailyTotal(DataType.TYPE_MOVE_MINUTES)
                 .addOnSuccessListener(
                         new OnSuccessListener<DataSet>() {
@@ -302,7 +298,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     }
 
     private void readDistance() {
-        Fitness.getHistoryClient(this, GoogleSignIn.getLastSignedInAccount(this))
+        Fitness.getHistoryClient(this, Objects.requireNonNull(GoogleSignIn.getLastSignedInAccount(this)))
                 .readDailyTotal(DataType.TYPE_DISTANCE_DELTA)
                 .addOnSuccessListener(
                         new OnSuccessListener<DataSet>() {

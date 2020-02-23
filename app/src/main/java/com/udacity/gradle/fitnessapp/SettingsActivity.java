@@ -111,9 +111,7 @@ public class SettingsActivity extends AppCompatActivity implements AdapterView.O
         int height = Integer.parseInt(mHeight.getText().toString());
         Date updatedAt = new Date();
 
-        /**
-         * Validate user input
-         */
+        //Validate user input
         if ((weight < 5) || (weight > 300) || (height < 50) || (height > 240)) {
             Context context = getApplicationContext();
             CharSequence text = "Please enter your actual weight(KG) and height(CM)";

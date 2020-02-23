@@ -9,14 +9,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        tools:context=".SettingsActivity">
+        android:background="@drawable/scrim"
+        tools:context=".SettingsActivity"
+        android:layout_margin="16dp">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="16dp"
-            android:background="@drawable/scrim"
-            android:orientation="vertical">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -153,5 +149,5 @@
                 android:background="@drawable/background"/>
 
         </LinearLayout>
-    </LinearLayout>
+
 </ScrollView>

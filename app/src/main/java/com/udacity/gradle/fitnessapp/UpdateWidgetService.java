@@ -19,6 +19,8 @@ import com.google.android.gms.fitness.data.Field;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 
+import java.util.Objects;
+
 public class UpdateWidgetService extends Service {
     int numberOfStepsWalked;
     String lastUpdate = "0";
@@ -29,7 +31,7 @@ public class UpdateWidgetService extends Service {
         // from GoogleFit and update the lastUpdate variable with the new value.
         //The lastUpdate variable will be used to update the home screen widget
         //The update interval is 60 seconds
-        Fitness.getHistoryClient(this, GoogleSignIn.getLastSignedInAccount(this))
+        Fitness.getHistoryClient(this, Objects.requireNonNull(GoogleSignIn.getLastSignedInAccount(this)))
                 .readDailyTotal(DataType.TYPE_STEP_COUNT_DELTA)
                 .addOnSuccessListener(
                         new OnSuccessListener<DataSet>() {

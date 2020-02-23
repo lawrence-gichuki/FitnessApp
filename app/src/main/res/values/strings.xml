@@ -30,7 +30,6 @@
     <string name="gender">Gender</string>
     <string name="weight">Weight</string>
     <string name="height">Height</string>
-    <string name="steps_goal">Steps Goal</string>
 
 
     <string-array name="gender">
