@@ -11,9 +11,10 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.udacity.gradle.fitnessapp.database.AppDatabase;
 import com.udacity.gradle.fitnessapp.database.UserProfile;
@@ -28,10 +29,12 @@ public class SettingsActivity extends AppCompatActivity implements AdapterView.O
     Spinner mGoal;
     EditText mWeight;
     EditText mHeight;
+    Date updatedAt;
     Button mSave;
     ArrayAdapter<CharSequence> adapterSteps;
     ArrayAdapter<CharSequence> adapterGender;
     Toast toast;
+    String TAG = "ViewModel";
     private AppDatabase mDb;
 
     @Override
@@ -39,11 +42,7 @@ public class SettingsActivity extends AppCompatActivity implements AdapterView.O
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
 
-        mGender = findViewById(R.id.gender);
-        mGoal = findViewById(R.id.steps);
-        mWeight = findViewById(R.id.weight);
-        mHeight = findViewById(R.id.height);
-        mSave = findViewById(R.id.save);
+        initViews();
 
         mDb = AppDatabase.getInstance(getApplicationContext());
 
@@ -76,8 +75,19 @@ public class SettingsActivity extends AppCompatActivity implements AdapterView.O
         // Apply the adapter to the spinner
         mGoal.setAdapter(adapterSteps);
 
-        retrieveProfile();
+        setupViewModel();
 
+    }
+
+    /**
+     * initViews is called from onCreate to init the member variable views
+     */
+    private void initViews() {
+        mGender = findViewById(R.id.gender);
+        mGoal = findViewById(R.id.steps);
+        mWeight = findViewById(R.id.weight);
+        mHeight = findViewById(R.id.height);
+        mSave = findViewById(R.id.save);
     }
 
     @Override
@@ -90,6 +100,10 @@ public class SettingsActivity extends AppCompatActivity implements AdapterView.O
 
     }
 
+    /**
+     * onSaveButtonClicked is called when the "save" button is clicked.
+     * It retrieves user input and inserts that new profile data into the underlying database.
+     */
     public void onSaveButtonClicked() {
 
         String gender = mGender.getSelectedItem().toString();
@@ -99,6 +113,9 @@ public class SettingsActivity extends AppCompatActivity implements AdapterView.O
         int height = Integer.parseInt(mHeight.getText().toString());
         Date updatedAt = new Date();
 
+        /**
+         * Validate user input
+         */
         if ((weight < 5) || (weight > 300) || (height < 50) || (height > 240)) {
             Context context = getApplicationContext();
             CharSequence text = "Please enter your actual weight(KG) and height(CM)";
@@ -111,14 +128,14 @@ public class SettingsActivity extends AppCompatActivity implements AdapterView.O
 
             toast = Toast.makeText(context, text, duration);
             toast.show();
-        } else {
+        } else { //If user entered correct input, save to Database
 
             final UserProfile userProfile = new UserProfile(gender, goal, weight, height, updatedAt);
-
-
             AppExecutors.getInstance().diskIO().execute(new Runnable() {
                 @Override
                 public void run() {
+                    int currentId = userProfile.getId();
+                    Log.i("ID",currentId + "");
                     mDb.userDao().insertUser(userProfile);
                     finish();
                 }
@@ -127,33 +144,16 @@ public class SettingsActivity extends AppCompatActivity implements AdapterView.O
 
     }
 
-    public void retrieveProfile() {
-        final LiveData<List<UserProfile>> userProfile = mDb.userDao().loadAllTasks();
-        userProfile.observe(this, new Observer<List<UserProfile>>() {
+    private void setupViewModel() {
+        MainViewModel viewModel = new ViewModelProvider(this).get(MainViewModel.class);
+        viewModel.getTasks().observe(this, new Observer<List<UserProfile>>() {
             @Override
-            public void onChanged(List<UserProfile> userProfiles) {
-                userProfile.removeObserver(this);
-                Log.i("FITNESS","Loading..");
-                AppExecutors.getInstance().diskIO().execute(new Runnable() {
-                    @Override
-                    public void run() {
-                        final String gender = mDb.userDao().loadGender();
-                        final int goal = mDb.userDao().loadGoal();
-                        final int weight = mDb.userDao().loadWeight();
-                        final int height = mDb.userDao().loadHeight();
-
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                mGender.setSelection(adapterGender.getPosition(gender));
-                                mGoal.setSelection(adapterSteps.getPosition(goal + ""));
-                                mWeight.setText(weight + "");
-                                mHeight.setText(height + "");
-                            }
-                        });
-                    }
-                });
+            public void onChanged(@Nullable List<UserProfile> taskEntries) {
+                Log.d(TAG, "Updating list of tasks from LiveData in ViewModel");
+                //mAdapter.setTasks(taskEntries);
             }
         });
     }
+
+
 }

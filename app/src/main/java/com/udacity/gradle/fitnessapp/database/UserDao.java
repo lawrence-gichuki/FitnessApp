@@ -14,7 +14,7 @@ import java.util.List;
 public interface UserDao {
 
     @Query("SELECT * FROM users ORDER BY id DESC LIMIT 1")
-    LiveData<List<UserProfile>> loadAllTasks();
+    LiveData<List<UserProfile>> loadUserProfile();
 
     @Query("SELECT gender FROM users ORDER BY id DESC LIMIT 1")
     String loadGender();
