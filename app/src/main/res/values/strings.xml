@@ -30,8 +30,12 @@
     <string name="height">Height</string>
     <string name="goal_label">Goal : </string>
     <string name="steps_label"> Steps</string>
-
-
+    <string name="step_label">Steps Walked Today: </string>
+    <string name="minutes_label">Active Minutes: </string>
+    <string name="distance_label">Distance: </string>
+    <string name="miles_label">Miles</string>
+    <string name="calories_label">Calories Burnt:</string>
+    <string name="kcal_label">kcal</string>
     <string-array name="gender">
         <item>Male</item>
         <item>Female</item>
