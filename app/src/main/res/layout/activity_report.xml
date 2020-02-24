@@ -9,70 +9,51 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_margin="16dp"
         android:background="@drawable/scrim"
+        android:gravity="center_horizontal"
         android:orientation="vertical"
         tools:context=".ReportActivity">
 
+
         <TextView
+            android:id="@+id/steps"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="56dp"
-            android:background="@drawable/scrim"
-            android:fontFamily="sans-serif-light"
-            android:padding="8dp"
-            android:text="@string/today"
+            android:layout_marginTop="16dp"
             android:textColor="@android:color/white"
-            android:textSize="56sp" />
+            android:textSize="24sp"
+            android:textStyle="bold"
+            tools:text="Steps Walked Today - 500" />
 
-        <RelativeLayout
+        <View
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="16dp"
-            android:background="@drawable/scrim">
-
-            <TextView
-                android:id="@+id/steps"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical|center_horizontal"
-                android:layout_margin="16dp"
-                android:text="@string/default_600_steps"
-                android:textColor="@android:color/white"
-                android:textSize="22sp"
-                android:textStyle="bold" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_margin="16dp"
-                android:text="@string/steps_left"
-                android:textColor="@android:color/black"
-                android:textSize="22sp" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/steps"
-                android:layout_centerInParent="true"
-                android:layout_margin="16dp"
-                android:text="@string/goal"
-                android:textColor="@android:color/black"
-                android:textSize="22sp" />
-
-        </RelativeLayout>
+            android:layout_height="1dp"
+            android:layout_marginTop="16dp"
+            android:background="@android:color/white" />
 
         <TextView
+            android:id="@+id/goal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="24dp"
-            android:background="@drawable/scrim"
-            android:padding="8dp"
-            android:text="@string/week"
-            android:textColor="@android:color/white"
-            android:textSize="56sp" />
+            android:layout_marginTop="16dp"
+            android:textColor="@android:color/black"
+            android:textSize="22sp"
+            tools:text="Goal - 6000 steps" />
+
+        <TextView
+            android:id="@+id/balance"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:textSize="22sp"
+            tools:text="Steps Remaining - 5500" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="16dp"
+            android:background="@android:color/white" />
 
         <com.github.mikephil.charting.charts.BarChart
             android:id="@+id/chart1"
