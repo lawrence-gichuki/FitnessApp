@@ -39,6 +39,7 @@
             android:layout_marginTop="16dp"
             android:textColor="@android:color/black"
             android:textSize="22sp"
+            android:textStyle="bold"
             tools:text="Goal - 6000 steps" />
 
         <TextView
@@ -54,6 +55,39 @@
             android:layout_height="1dp"
             android:layout_marginTop="16dp"
             android:background="@android:color/white" />
+
+        <TextView
+            android:id="@+id/active_minutes"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:textSize="22sp"
+            android:textStyle="bold"
+            android:textColor="@android:color/black"
+            tools:text="Active Time - 60 Minutes" />
+
+        <TextView
+            android:id="@+id/distance"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:textSize="22sp"
+            tools:text="Distance - 5 Miles" />
+
+        <TextView
+            android:id="@+id/calories"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:textSize="22sp"
+            tools:text="Calories Burnt - 200 Kcal" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="16dp"
+            android:background="@android:color/white" />
+
 
         <com.github.mikephil.charting.charts.BarChart
             android:id="@+id/chart1"
