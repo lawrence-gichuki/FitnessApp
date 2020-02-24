@@ -159,6 +159,10 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
             Intent intent = new Intent(this, ReportActivity.class);
             startActivity(intent);
             return true;
+        } else if (id == R.id.action_exercise) {
+            Intent intent = new Intent(this, ExerciseActivity.class);
+            startActivity(intent);
+            return true;
         }
 
         return super.onOptionsItemSelected(item);

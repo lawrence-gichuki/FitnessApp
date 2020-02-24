@@ -37,6 +37,11 @@
     <string name="calories_label">Calories Burnt:</string>
     <string name="kcal_label">kcal</string>
     <string name="every_step_counts">Keep walking. Every Step Counts!</string>
+    <string name="treadmill">Download Recommended Treadmill</string>
+    <string name="treadmill_description">Treadmill</string>
+    <string name="action_exercise">Exercise Equipment</string>
+    <string name="download_treadmill_sample">Download Sample Treadmill</string>
+    <string name="you_can_use_a_treadmill_to_achive_your_step_goal_faster">You can use a treadmill to achieve your goal faster</string>
     <string-array name="gender">
         <item>Male</item>
         <item>Female</item>

@@ -27,6 +27,7 @@ import java.math.BigDecimal;
 import java.util.List;
 import java.util.Objects;
 
+
 public class ReportActivity extends AppCompatActivity {
     private static final String TAG = MainActivity.class.getSimpleName();
     private static final int REQUEST_OAUTH_REQUEST_CODE = 0x1001;
@@ -36,7 +37,6 @@ public class ReportActivity extends AppCompatActivity {
     TextView activeMinutesWalked;
     float stepsGoal;
     private AppDatabase mDb;
-
     /**
      * Round to certain number of decimals
      */

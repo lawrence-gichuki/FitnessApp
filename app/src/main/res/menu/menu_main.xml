@@ -14,4 +14,9 @@
         android:orderInCategory="101"
         android:title="@string/action_settings"
         app:showAsAction="never" />
+    <item
+        android:id="@+id/action_exercise"
+        android:orderInCategory="102"
+        android:title="@string/action_exercise"
+        app:showAsAction="never" />
 </menu>
