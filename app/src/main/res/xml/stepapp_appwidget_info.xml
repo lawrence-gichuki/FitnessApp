@@ -2,10 +2,9 @@
 <appwidget-provider xmlns:android="http://schemas.android.com/apk/res/android"
     android:minWidth="272dp"
     android:minHeight="56dp"
-    android:updatePeriodMillis="86400000"
-    android:previewImage="@drawable/person_walking_icon"
+    android:updatePeriodMillis="60000"
+    android:previewImage="@drawable/widget"
     android:initialLayout="@layout/stepapp_widget"
-
     android:resizeMode="horizontal|vertical"
     android:widgetCategory="home_screen">
 </appwidget-provider>
