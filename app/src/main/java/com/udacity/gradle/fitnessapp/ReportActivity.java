@@ -1,17 +1,14 @@
 package com.udacity.gradle.fitnessapp;
 
+import android.os.Bundle;
+import android.util.Log;
+import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
-
-import android.content.Context;
-import android.hardware.Sensor;
-import android.hardware.SensorManager;
-import android.os.Bundle;
-import android.util.Log;
-import android.widget.TextView;
 
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.fitness.Fitness;
@@ -23,7 +20,6 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
-import com.txusballesteros.widgets.FitChart;
 import com.udacity.gradle.fitnessapp.database.AppDatabase;
 import com.udacity.gradle.fitnessapp.database.UserProfile;
 
@@ -34,11 +30,10 @@ import java.util.Objects;
 public class ReportActivity extends AppCompatActivity {
     private static final String TAG = MainActivity.class.getSimpleName();
     private static final int REQUEST_OAUTH_REQUEST_CODE = 0x1001;
-    int numberOfStepsWalked;
+    int numberOfStepsWalked = 0;
     TextView distanceWalked;
     TextView caloriesBurnt;
     TextView activeMinutesWalked;
-    TextView balance;
     float stepsGoal;
     private AppDatabase mDb;
 
@@ -71,9 +66,6 @@ public class ReportActivity extends AppCompatActivity {
             readDistance();
         }
 
-        balance = findViewById(R.id.balance);
-        balance.setText("Steps Remaining: 500");
-
         activeMinutesWalked = findViewById(R.id.active_minutes);
         distanceWalked = findViewById(R.id.distance);
         caloriesBurnt = findViewById(R.id.calories);
@@ -97,7 +89,6 @@ public class ReportActivity extends AppCompatActivity {
                                 TextView goalTextView;
                                 goalTextView = findViewById(R.id.goal);
                                 stepsGoal = ((float) goal);
-
                                 String myGoalLabel = getResources().getString(R.string.goal_label);
                                 String myStepsLabel = getResources().getString(R.string.steps_label);
                                 goalTextView.setText(myGoalLabel + " " + goal + " " + myStepsLabel);

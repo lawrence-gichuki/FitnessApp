@@ -36,6 +36,7 @@
     <string name="miles_label">Miles</string>
     <string name="calories_label">Calories Burnt:</string>
     <string name="kcal_label">kcal</string>
+    <string name="every_step_counts">Keep walking. Every Step Counts!</string>
     <string-array name="gender">
         <item>Male</item>
         <item>Female</item>
