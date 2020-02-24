@@ -117,7 +117,9 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                                 goalTextView = findViewById(R.id.steps_goal);
                                 stepsGoal = ((float) goal);
                                 fitChart.setMaxValue(stepsGoal);
-                                goalTextView.setText("Goal: " + goal + " Steps");
+                                String myGoalLabel = getResources().getString(R.string.goal_label);
+                                String myStepsLabel = getResources().getString(R.string.steps_label);
+                                goalTextView.setText(myGoalLabel + goal + myStepsLabel);
                             }
                         });
                     }
