@@ -9,15 +9,12 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
-
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
-
 import com.udacity.gradle.fitnessapp.database.AppDatabase;
 import com.udacity.gradle.fitnessapp.database.UserProfile;
-
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;

@@ -39,6 +39,8 @@ import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity implements SensorEventListener {
 
+    private static final int REQUEST_OAUTH_REQUEST_CODE = 0x1001;
+    private static final String TAG = MainActivity.class.getSimpleName();
     int numberOfStepsWalked;
     TextView stepsLiveCounter;
     TextView distanceWalked;
@@ -46,11 +48,18 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     TextView activeMinutesWalked;
     SensorManager sensorManager;
     float stepsGoal;
-    private AppDatabase mDb;
     FitChart fitChart;
     boolean isSensorPresent = false;
-    private static final int REQUEST_OAUTH_REQUEST_CODE = 0x1001;
-    private static final String TAG = MainActivity.class.getSimpleName();
+    private AppDatabase mDb;
+
+    /**
+     * Round to certain number of decimals
+     */
+    public static BigDecimal round(float d, int decimalPlace) {
+        BigDecimal bd = new BigDecimal(Float.toString(d));
+        bd = bd.setScale(decimalPlace, BigDecimal.ROUND_HALF_UP);
+        return bd;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -92,7 +101,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
         fitChart = findViewById(R.id.fitchart);
         fitChart.setMinValue(0f);
-        Log.d(TAG,   stepsGoal + "");
+        Log.d(TAG, stepsGoal + "");
         fitChart.setMaxValue(stepsGoal);
 
 
@@ -143,15 +152,14 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         int id = item.getItemId();
 
         if (id == R.id.action_settings) {
-            Intent intent = new Intent(this,SettingsActivity.class);
+            Intent intent = new Intent(this, SettingsActivity.class);
             startActivity(intent);
             return true;
-        } else
-            if (id == R.id.action_report) {
-                Intent intent = new Intent(this, ReportActivity.class);
-                startActivity(intent);
-                return true;
-            }
+        } else if (id == R.id.action_report) {
+            Intent intent = new Intent(this, ReportActivity.class);
+            startActivity(intent);
+            return true;
+        }
 
         return super.onOptionsItemSelected(item);
     }
@@ -161,10 +169,9 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         super.onResume();
         Sensor countSensor = sensorManager.getDefaultSensor(Sensor.TYPE_STEP_COUNTER);
         if (countSensor != null) {
-            sensorManager.registerListener(this, countSensor,SensorManager.SENSOR_DELAY_FASTEST);
+            sensorManager.registerListener(this, countSensor, SensorManager.SENSOR_DELAY_FASTEST);
             isSensorPresent = true;
-        } else
-        {
+        } else {
             Toast.makeText(this, "Sensor not found!", Toast.LENGTH_SHORT).show();
             isSensorPresent = false;
         }
@@ -257,9 +264,9 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                                         dataSet.isEmpty()
                                                 ? 0
                                                 : dataSet.getDataPoints().get(0).getValue(Field.FIELD_CALORIES).asFloat();
-                                Log.d(TAG, "Total calories: " + round((total),0));
+                                Log.d(TAG, "Total calories: " + round((total), 0));
 
-                                caloriesBurnt.setText(round((total),0) + "");
+                                caloriesBurnt.setText(round((total), 0) + "");
 
                             }
                         })
@@ -309,9 +316,9 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                                         dataSet.isEmpty()
                                                 ? 0
                                                 : dataSet.getDataPoints().get(0).getValue(Field.FIELD_DISTANCE).asFloat();
-                                Log.d(TAG, "Total Miles: " + round((total*0.000621371f),2));
+                                Log.d(TAG, "Total Miles: " + round((total * 0.000621371f), 2));
 
-                                distanceWalked.setText(round((total*0.000621371f),2) + "");
+                                distanceWalked.setText(round((total * 0.000621371f), 2) + "");
 
                             }
                         })
@@ -322,15 +329,6 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                                 Log.d(TAG, "There was a problem getting the active minutes total.", e);
                             }
                         });
-    }
-
-    /**
-     * Round to certain number of decimals
-     */
-    public static BigDecimal round(float d, int decimalPlace) {
-        BigDecimal bd = new BigDecimal(Float.toString(d));
-        bd = bd.setScale(decimalPlace, BigDecimal.ROUND_HALF_UP);
-        return bd;
     }
 
 }

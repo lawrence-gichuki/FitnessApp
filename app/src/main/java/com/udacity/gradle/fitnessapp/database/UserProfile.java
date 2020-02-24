@@ -3,7 +3,6 @@ package com.udacity.gradle.fitnessapp.database;
 import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
-
 import java.util.Date;
 
 @Entity(tableName = "users")

@@ -1,8 +1,8 @@
 package com.udacity.gradle.fitnessapp;
 
+import android.app.PendingIntent;
 import android.app.Service;
 import android.appwidget.AppWidgetManager;
-import android.content.ComponentName;
 import android.content.Intent;
 import android.os.IBinder;
 import android.util.Log;
@@ -22,15 +22,50 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import java.util.Objects;
 
 public class UpdateWidgetService extends Service {
-    int numberOfStepsWalked;
-    String lastUpdate = "0";
     private static final String TAG = UpdateWidgetService.class.getSimpleName();
+    int number;
+
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        //This code snippet will read the current steps covered by the user today
-        // from GoogleFit and update the lastUpdate variable with the new value.
-        //The lastUpdate variable will be used to update the home screen widget
-        //The update interval is 60 seconds
+        AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(this
+                .getApplicationContext());
+
+        int[] allWidgetIds = intent
+                .getIntArrayExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS);
+
+        for (int widgetId : allWidgetIds) {
+
+            number = readSteps();
+            Log.d(TAG, number + "");
+
+            RemoteViews remoteViews = new RemoteViews(this
+                    .getApplicationContext().getPackageName(),
+                    R.layout.stepapp_widget);
+            Log.w(TAG, String.valueOf(number));
+            // Set the text
+            remoteViews.setTextViewText(R.id.widget_steps,
+                    String.valueOf(number));
+
+            // Register an onClickListener
+            Intent clickIntent = new Intent(this.getApplicationContext(),
+                    MainActivity.class);
+
+            clickIntent.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
+            clickIntent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS,
+                    allWidgetIds);
+
+            PendingIntent pendingIntent = PendingIntent.getBroadcast(
+                    getApplicationContext(), 0, clickIntent,
+                    PendingIntent.FLAG_UPDATE_CURRENT);
+            remoteViews.setOnClickPendingIntent(R.id.widget_steps, pendingIntent);
+            appWidgetManager.updateAppWidget(widgetId, remoteViews);
+        }
+        stopSelf();
+
+        return super.onStartCommand(intent, flags, startId);
+    }
+
+    private int readSteps() {
         Fitness.getHistoryClient(this, Objects.requireNonNull(GoogleSignIn.getLastSignedInAccount(this)))
                 .readDailyTotal(DataType.TYPE_STEP_COUNT_DELTA)
                 .addOnSuccessListener(
@@ -43,9 +78,7 @@ public class UpdateWidgetService extends Service {
                                                 : dataSet.getDataPoints().get(0).getValue(Field.FIELD_STEPS).asInt();
                                 Log.d(TAG, "Total steps: " + total);
 
-                                numberOfStepsWalked = (int) total;
-                                lastUpdate = numberOfStepsWalked + "";
-                                Log.d(TAG,lastUpdate);
+                                number = (int) total;
                             }
                         })
                 .addOnFailureListener(
@@ -53,18 +86,9 @@ public class UpdateWidgetService extends Service {
                             @Override
                             public void onFailure(@NonNull Exception e) {
                                 Log.d(TAG, "There was a problem getting the step count.", e);
-                                lastUpdate = "10";
                             }
                         });
-
-        // Reaches the view on widget and displays the number
-        RemoteViews view = new RemoteViews(getPackageName(), R.layout.stepapp_widget);
-        view.setTextViewText(R.id.widget_steps, lastUpdate);
-        ComponentName theWidget = new ComponentName(this, StepAppWidgetProvider.class);
-        AppWidgetManager manager = AppWidgetManager.getInstance(this);
-        manager.updateAppWidget(theWidget, view);
-
-        return super.onStartCommand(intent, flags, startId);
+        return number;
     }
 
     @Nullable

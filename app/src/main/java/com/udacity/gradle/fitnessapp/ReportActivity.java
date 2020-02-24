@@ -37,6 +37,15 @@ public class ReportActivity extends AppCompatActivity {
     float stepsGoal;
     private AppDatabase mDb;
 
+    /**
+     * Round to certain number of decimals
+     */
+    public static BigDecimal round(float d, int decimalPlace) {
+        BigDecimal bd = new BigDecimal(Float.toString(d));
+        bd = bd.setScale(decimalPlace, BigDecimal.ROUND_HALF_UP);
+        return bd;
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -232,15 +241,6 @@ public class ReportActivity extends AppCompatActivity {
                                 Log.d(TAG, "There was a problem getting the active minutes total.", e);
                             }
                         });
-    }
-
-    /**
-     * Round to certain number of decimals
-     */
-    public static BigDecimal round(float d, int decimalPlace) {
-        BigDecimal bd = new BigDecimal(Float.toString(d));
-        bd = bd.setScale(decimalPlace, BigDecimal.ROUND_HALF_UP);
-        return bd;
     }
 
 }
